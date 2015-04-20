@@ -187,7 +187,7 @@ function configure_diskspace(){
   # the disk we use needs to have at least 60GB of space
   min_disk_size_b=$((60 * 1024 * 1024 * 1024))
 
-  blk_devices=$(lsblk -nrdo NAME,TYPE | awk '/d[b-z]+ disk/ {print $1}')
+  blk_devices=$(lsblk -nrdo NAME,TYPE | awk '/d[c-z]+ disk/ {print $1}')
   for blk_dev in ${blk_devices}; do
     # only do this if the cinder-volumes vg doesn't already exist
     if ! vgs cinder-volumes > /dev/null 2>&1; then
