@@ -79,7 +79,7 @@ if [ ! -d "/etc/rpc_deploy" ];then
   # Adjust any defaults to suit the AIO
   # commented lines are removed by pw-token gen, so this substitution must
   # happen prior.
-  sed -i "s/# nova_virt_type:.*/nova_virt_type: qemu/" ${USER_VARS_PATH}
+  sed -i "s/# nova_virt_type:.*/nova_virt_type: kvm/" ${USER_VARS_PATH}
   sed -i "s/# logstash_heap_size_mb:/logstash_heap_size_mb:/" ${USER_VARS_PATH}
   sed -i "s/# elasticsearch_heap_size_mb:/elasticsearch_heap_size_mb:/" ${USER_VARS_PATH}
 
