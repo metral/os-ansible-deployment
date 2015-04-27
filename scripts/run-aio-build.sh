@@ -18,7 +18,7 @@
 set -e -u -v +x
 
 ## Variables -----------------------------------------------------------------
-
+export OS_ANSIBLE_DEPLOYMENT_TAG=${OS_ANSIBLE_DEPLOYMENT_TAG:-""}
 export REPO_URL=${REPO_URL:-"https://github.com/stackforge/os-ansible-deployment.git"}
 export REPO_BRANCH=${REPO_BRANCH:-"juno"}
 export WORKING_FOLDER=${WORKING_FOLDER:-"/opt/stackforge/os-ansible-deployment"}
@@ -34,10 +34,17 @@ set -x
 apt-get update && apt-get install -y git
 
 # fetch the repo
-git clone -b ${REPO_BRANCH} ${REPO_URL} ${WORKING_FOLDER}/
+if [ -z "$OS_ANSIBLE_DEPLOYMENT_TAG" ]; then
+    git clone -b ${REPO_BRANCH} ${REPO_URL} ${WORKING_FOLDER}
+else
+    git clone ${REPO_URL} ${WORKING_FOLDER}
+fi
 
 # run the same aio build script that is used in the OpenStack CI pipeline
 cd ${WORKING_FOLDER}
+if [ $OS_ANSIBLE_DEPLOYMENT_TAG ]; then
+    git checkout $OS_ANSIBLE_DEPLOYMENT_TAG
+fi
 
 bash scripts/gate-check-commit.sh
 
